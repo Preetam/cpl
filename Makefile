@@ -4,7 +4,7 @@ LIBRARY_INCLUDE := ./include
 FLAGS = -std=c++0x -Wall
 TEST_BINARY = ./test/test
 
-all: test_build test_run test_leaks
+all: test_build test_run
 
 clean:
 	rm ./test/test
@@ -18,4 +18,4 @@ test_run:
 test_leaks:
 	valgrind --leak-check=full --show-leak-kinds=all $(TEST_BINARY)
 
-.PHONY: clean test test_leaks
+.PHONY: clean test_build test_run test_leaks

@@ -1,11 +1,6 @@
 #ifndef tcp_socket_hpp_
 #define tcp_socket_hpp_
 
-#include <arpa/inet.h>
-#include <string>
-#include <iostream>
-#include <stdexcept>
-
 namespace cpl
 {
 namespace net
