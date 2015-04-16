@@ -1,7 +1,7 @@
 TEST_SOURCES := ${shell find ./test/ -name *.cc}
 TEST_HEADERS := ${shell find ./test/ -name *.hpp}
 LIBRARY_INCLUDE := ./include
-FLAGS = -std=gnu++11 -Wall
+FLAGS = -std=c++0x -Wall
 BINARY = test
 
 all: test
