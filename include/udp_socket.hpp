@@ -4,8 +4,6 @@
 #include <socket.hpp>
 #include <sockaddr.hpp>
 
-#include <cstring>
-
 namespace cpl
 {
 namespace net
@@ -14,21 +12,23 @@ namespace net
 class UDP_Socket : public Socket
 {
 public:
-	int recvfrom(void* buf, size_t len, int flags, SockAddr* sockaddr)
+	int recvfrom(void* buf, size_t len, int flags, SockAddr* addr)
 	{
-		struct sockaddr source;
-		socklen_t addrlen;
+		struct sockaddr_storage source;
+		socklen_t source_len = sizeof source;
 
-		// Avoid Valgrind errors.
-		memset(&source, 0, sizeof source);
-		memset(&addrlen, 0, sizeof addrlen);
-
-		auto ret = (int)(::recvfrom(fd, buf, len, flags, &source, &addrlen));
+		auto ret = (int)(::recvfrom(fd, buf, len, flags, (struct sockaddr*)&source, &source_len));
 		if (ret < 0) {
 			return ret;
 		}
 
-		*sockaddr = SockAddr(source);
+		if (local_address.family() == AF_INET) {
+			IPv4SockAddr saddr(reinterpret_cast<struct sockaddr&>(source));
+			*addr = saddr;
+		} else {
+			IPv6SockAddr saddr(reinterpret_cast<struct sockaddr&>(source));
+			*addr = saddr;
+		}
 
 		return ret;
 	}

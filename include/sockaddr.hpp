@@ -17,6 +17,11 @@ public:
 	{
 	}
 
+	SockAddr(struct sockaddr_storage& addr)
+	{
+		SockAddr(reinterpret_cast<struct sockaddr&>(addr));
+	}
+
 	SockAddr(struct sockaddr& addr)
 	{
 		family = addr.sa_family;
@@ -64,7 +69,7 @@ public:
 	~IPv4SockAddr() throw()
 	{
 	}
-	
+
 }; // IPv4SockAddr
 
 class IPv6SockAddr : public SockAddr
