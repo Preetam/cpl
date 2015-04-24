@@ -51,8 +51,6 @@ public:
 			dest_in6->sin6_addr = address.addr.v6_addr;
 		}
 
-		std::cout << port << std::endl;
-
 		auto ret = (int)(::sendto(fd, buf, len, flags, reinterpret_cast<struct sockaddr*>(&dest), dest_len));
 
 		return ret;
