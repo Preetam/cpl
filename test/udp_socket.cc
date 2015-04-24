@@ -1,4 +1,5 @@
 #include <udp_socket.hpp>
+#include <sockaddr.hpp>
 #include <cassert>
 #include <string>
 

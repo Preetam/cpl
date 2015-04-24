@@ -21,6 +21,18 @@ public:
 	{
 	}
 
+	IP(const in_addr address)
+	: addr_family(AF_INET)
+	{
+		addr.v4_addr = address;
+	}
+
+	IP(const in6_addr address)
+	: addr_family(AF_INET6)
+	{
+		addr.v6_addr = address;
+	}
+
 	IP(const std::string& address)
 	{
 		auto s = inet_pton(AF_INET, address.c_str(), &addr.v4_addr);

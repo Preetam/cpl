@@ -14,6 +14,9 @@
 // IP
 #include <ip.hpp>
 
+// SockAddr
+#include <sockaddr.hpp>
+
 namespace cpl
 {
 namespace net
