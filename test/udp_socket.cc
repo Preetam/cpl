@@ -15,8 +15,10 @@ test_udp_socket() {
 
 		// cpl::net::SockAddr saddr;
 		// char buf[1000];
+		// auto message = std::string("hello");
 		// udp_socket.recvfrom(buf, 1000, 0, &saddr);
 		// std::cout << saddr.address() << ":" << saddr.port() << std::endl;
+		// udp_socket.sendto(message.c_str(), message.length(), 0, addr, 8081);
 	} catch(...) {
 		return 1;
 	}

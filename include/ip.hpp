@@ -14,6 +14,8 @@ namespace net
 class IP
 {
 	friend class Socket;
+	friend class UDP_Socket;
+	friend class TCP_Socket;
 
 public:
 	IP()
