@@ -12,5 +12,18 @@ main() {
 		std::cout << "test_ip: passed" << std::endl;
 	}
 
+	if (test_tcp_socket()) {
+		std::cout << "test_tcp_socket: failed" << std::endl;
+	} else {
+		std::cout << "test_tcp_socket: passed" << std::endl;
+	}
+
+
+	if (test_udp_socket()) {
+		std::cout << "test_udp_socket: failed" << std::endl;
+	} else {
+		std::cout << "test_udp_socket: passed" << std::endl;
+	}
+
 	std::cout << "finished tests" << std::endl;
 }

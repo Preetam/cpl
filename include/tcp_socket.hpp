@@ -1,21 +1,31 @@
 #ifndef tcp_socket_hpp_
 #define tcp_socket_hpp_
 
+#include <socket.hpp>
+
+#include <stdexcept>
+
 namespace cpl
 {
 namespace net
 {
 
-class TCP_Socket
+class TCP_Socket : public Socket
 {
 public:
-	TCP_Socket()
+	void listen()
 	{
+		listen(128);
 	}
 
-	~TCP_Socket() throw ()
+	void listen(int backlog)
 	{
+		if (::listen(fd, backlog) < 0) {
+			throw std::runtime_error("failed to listen on socket");
+		}
 	}
+
+private:
 	
 }; // TCP_Socket
 
