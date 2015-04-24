@@ -32,11 +32,11 @@ public:
 		address_family = addr.sa_family;
 		if (address_family == AF_INET) {
 			auto addr_in = reinterpret_cast<struct sockaddr_in*>(&addr);
-			local_port = addr_in->sin_port;
+			local_port = ntohs(addr_in->sin_port);
 			local_address = IP(addr_in->sin_addr);
 		} else {
 			auto addr_in6 = reinterpret_cast<struct sockaddr_in6*>(&addr);
-			local_port = addr_in6->sin6_port;
+			local_port = ntohs(addr_in6->sin6_port);
 			local_address = IP(addr_in6->sin6_addr);
 		}
 	}
