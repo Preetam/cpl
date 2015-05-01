@@ -9,6 +9,8 @@ test_tcp_socket() {
 
 		auto addr = std::string("127.0.0.1");
 		tcp_socket.bind(addr, 8080);
+
+		tcp_socket.listen();
 	} catch(...) {
 		return 1;
 	}
