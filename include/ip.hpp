@@ -37,6 +37,15 @@ public:
 
 	IP(const std::string& address)
 	{
+		set(address);
+	}
+
+	~IP() throw()
+	{
+	}
+
+	void set(const std::string& address)
+	{
 		auto s = inet_pton(AF_INET, address.c_str(), &addr.v4_addr);
 		if (s == 1) {
 			// success
@@ -52,10 +61,6 @@ public:
 		}
 		
 		throw std::invalid_argument("invalid address");
-	}
-
-	~IP() throw()
-	{
 	}
 
 	std::string string() const
