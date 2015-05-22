@@ -1,5 +1,4 @@
-#ifndef udp_socket_hpp_
-#define udp_socket_hpp_
+#pragma once
 
 #include "socket.hpp"
 #include "sockaddr.hpp"
@@ -91,5 +90,3 @@ private:
 
 } // net
 } // cpl
-
-#endif

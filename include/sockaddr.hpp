@@ -1,5 +1,4 @@
-#ifndef sockaddr_hpp_
-#define sockaddr_hpp_
+#pragma once
 
 #include "ip.hpp"
 
@@ -72,5 +71,3 @@ protected:
 
 } // net
 } // cpl
-
-#endif

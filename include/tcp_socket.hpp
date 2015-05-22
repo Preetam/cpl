@@ -1,5 +1,4 @@
-#ifndef tcp_socket_hpp_
-#define tcp_socket_hpp_
+#pragma once
 
 #include "socket.hpp"
 
@@ -60,5 +59,3 @@ private:
 
 } // net
 } // cpl
-
-#endif

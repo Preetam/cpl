@@ -1,5 +1,4 @@
-#ifndef ip_hpp_
-#define ip_hpp_
+#pragma once
 
 #include <arpa/inet.h>
 #include <string>
@@ -104,5 +103,3 @@ inline std::ostream& operator << (std::ostream& os, const IP& ip) {
 
 } // net
 } // cpl
-
-#endif

@@ -1,7 +1,6 @@
 // This header file provides a command line flag handling
 // utility class.
-#ifndef flags_hpp_
-#define flags_hpp_
+#pragma once
 
 #include <functional> // std::function
 #include <iostream> // std::cout
@@ -162,5 +161,3 @@ inline void Flags :: parse(int argc, char* argv[]) throw() {
 }
 
 } // cpl
-
-#endif

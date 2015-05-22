@@ -1,5 +1,4 @@
-#ifndef socket_hpp_
-#define socket_hpp_
+#pragma once
 
 // C++
 #include <string>
@@ -36,5 +35,3 @@ protected:
 
 } // net
 } // cpl
-
-#endif
