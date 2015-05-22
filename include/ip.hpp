@@ -59,7 +59,7 @@ public:
 			return;
 		}
 		
-		throw std::invalid_argument("invalid address");
+		throw std::invalid_argument("invalid ip");
 	}
 
 	std::string string() const

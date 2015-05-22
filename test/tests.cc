@@ -6,6 +6,12 @@ int
 main() {
 	std::cout << "starting tests" << std::endl;
 
+	if (test_address()) {
+		std::cout << " ✗ test_address: failed" << std::endl;
+	} else {
+		std::cout << " ✓ test_address: passed" << std::endl;
+	}
+
 	if (test_ip()) {
 		std::cout << " ✗ test_ip: failed" << std::endl;
 	} else {

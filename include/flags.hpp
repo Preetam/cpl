@@ -27,7 +27,7 @@ public:
 	// parses arguments
 	void parse(int argc, char* argv[]) throw();
 
-	// Prints usage string message to standard out.
+	// Prints usage string message to stdout.
 	void print_usage() throw();
 
 private:
