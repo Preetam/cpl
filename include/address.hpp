@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdexcept>
-#include <cstdlib>
+#include <cstdlib> // atoi
+#include <stdexcept> // std::invalid_argument
 
 #include "ip.hpp"
 
@@ -37,7 +37,7 @@ struct Address
 
 	IP ip;
 	int port;
-};
+}; // Address
 
 } // net
 } // cpl

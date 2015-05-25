@@ -2,8 +2,6 @@
 
 #include "ip.hpp"
 
-#include <stdexcept>
-
 namespace cpl
 {
 namespace net
@@ -26,7 +24,7 @@ public:
 		set(addr);
 	}
 
-	void set(struct sockaddr& addr)
+	inline void set(struct sockaddr& addr)
 	{
 		address_family = addr.sa_family;
 		if (address_family == AF_INET) {
@@ -40,25 +38,20 @@ public:
 		}
 	}
 
-	void set(struct sockaddr_storage& addr)
+	inline void set(struct sockaddr_storage& addr)
 	{
 		set(reinterpret_cast<struct sockaddr&>(addr));
 	}
 
-
-	~SockAddr() throw()
-	{
-	}
-
-	int family() {
+	inline int family() {
 		return address_family;
 	}
 
-	IP address() {
+	inline IP address() {
 		return local_address;
 	}
 
-	int port() {
+	inline int port() {
 		return local_port;
 	}
 

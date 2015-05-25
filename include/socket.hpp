@@ -1,20 +1,11 @@
 #pragma once
 
-// C++
-#include <string>
-#include <stdexcept>
+#include <unistd.h>     // close
+#include <sys/socket.h> // socket
 
-// socket
-#include <sys/socket.h>
+#include <string> // std::string
 
-// close
-#include <unistd.h>
-
-// IP
 #include "ip.hpp"
-
-// SockAddr
-#include "sockaddr.hpp"
 
 namespace cpl
 {

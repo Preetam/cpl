@@ -1,9 +1,10 @@
 #pragma once
 
 #include <arpa/inet.h>
-#include <string>
-#include <iostream>
-#include <stdexcept>
+
+#include <string> // std::string
+#include <iostream> // std::cout
+#include <stdexcept> // std::invalid_argument
 
 namespace cpl
 {
@@ -39,11 +40,7 @@ public:
 		set(address);
 	}
 
-	~IP() throw()
-	{
-	}
-
-	void set(const std::string& address)
+	inline void set(const std::string& address)
 	{
 		auto s = inet_pton(AF_INET, address.c_str(), &addr.v4_addr);
 		if (s == 1) {
@@ -62,7 +59,7 @@ public:
 		throw std::invalid_argument("invalid ip");
 	}
 
-	std::string string() const
+	inline std::string string() const
 	{
 		if (addr_family == AF_INET) {
 			// v4
@@ -81,7 +78,7 @@ public:
 		return "";
 	}
 
-	int family() const
+	inline int family() const
 	{
 		return addr_family;
 	}

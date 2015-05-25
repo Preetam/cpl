@@ -2,11 +2,11 @@
 // utility class.
 #pragma once
 
+#include <map>        // std::map
+#include <string>     // std::string
+#include <iostream>   // std::cout
+#include <stdexcept>  // exceptions
 #include <functional> // std::function
-#include <iostream> // std::cout
-#include <map> // std::map
-#include <stdexcept> // exceptions
-#include <string> // std::string
 
 namespace cpl {
 
@@ -45,7 +45,7 @@ private:
 
 	// map from flag to description string
 	std::map<std::pair<std::string, std::string>, std::string> descs;
-};
+}; // Flags
 
 inline void Flags :: add_option(std::string long_opt,
 	std::string opt, std::string desc,

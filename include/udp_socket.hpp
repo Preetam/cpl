@@ -1,10 +1,9 @@
 #pragma once
 
-#include "socket.hpp"
-#include "sockaddr.hpp"
+#include <cstring> // memset
 
-// memset
-#include <cstring>
+#include "socket.hpp" 
+#include "sockaddr.hpp"
 
 namespace cpl
 {
@@ -14,7 +13,7 @@ namespace net
 class UDP_Socket : public Socket
 {
 public:
-	void bind(std::string address, int port)
+	inline void bind(std::string address, int port)
 	{
 		local_address = IP(address);
 		local_port = port;
@@ -43,7 +42,7 @@ public:
 		}
 	}
 
-	int recvfrom(void* buf, size_t len, int flags, SockAddr* addr)
+	inline int recvfrom(void* buf, size_t len, int flags, SockAddr* addr)
 	{
 		struct sockaddr_storage source;
 		socklen_t source_len = sizeof source;
@@ -60,7 +59,7 @@ public:
 		return ret;
 	}
 
-	int sendto(const void* buf, size_t len, int flags, IP address, int port)
+	inline int sendto(const void* buf, size_t len, int flags, IP address, int port)
 	{
 		struct sockaddr_storage dest;
 		socklen_t dest_len = sizeof dest;

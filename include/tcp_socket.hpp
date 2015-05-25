@@ -1,8 +1,8 @@
 #pragma once
 
-#include "socket.hpp"
+#include <stdexcept> // std::runtime_error
 
-#include <stdexcept>
+#include "socket.hpp"
 
 namespace cpl
 {
@@ -12,19 +12,19 @@ namespace net
 class TCP_Socket : public Socket
 {
 public:
-	void listen()
+	inline void listen()
 	{
 		listen(128);
 	}
 
-	void listen(int backlog)
+	inline void listen(int backlog)
 	{
 		if (::listen(fd, backlog) < 0) {
 			throw std::runtime_error("failed to listen on socket");
 		}
 	}
 
-	void bind(std::string address, int port)
+	inline void bind(std::string address, int port)
 	{
 		local_address = IP(address);
 		local_port = port;
