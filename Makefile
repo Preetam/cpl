@@ -1,5 +1,5 @@
-TEST_SOURCES := ${shell find ./test/ -name *.cc}
-TEST_HEADERS := ${shell find ./test/ -name *.hpp}
+TEST_SOURCES := ${shell find ./test -name *.cc}
+TEST_HEADERS := ${shell find ./test -name *.hpp}
 LIBRARY_INCLUDE := ./include
 FLAGS = -std=c++0x -Wall
 TEST_BINARY = ./test/test
