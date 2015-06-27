@@ -1,5 +1,6 @@
 #include <tcp_socket.hpp>
 #include <cassert>
+#include <cstring>
 #include <string>
 
 int
@@ -11,6 +12,10 @@ test_tcp_socket() {
 		tcp_socket.bind(addr, 8080);
 
 		tcp_socket.listen();
+
+		//auto conn = tcp_socket.accept();
+		//const char* message = "hello!\n";
+		//conn.send(message, strlen(message), 0);
 	} catch(...) {
 		return 1;
 	}

@@ -57,12 +57,18 @@ public:
 		}
 	}
 
-	inline int accept()
+	inline TCP_Connection accept()
 	{
 		struct sockaddr_storage remote;
 		socklen_t remote_addr_size = sizeof(remote);
 		int newfd = ::accept(fd, reinterpret_cast<struct sockaddr*>(&remote), &remote_addr_size);
-		return newfd;
+		if (newfd < 0) {
+			throw std::runtime_error("failed to accept connection");
+		}
+
+		SockAddr remote_address(remote);
+		TCP_Connection conn(newfd, local_address, remote_address);
+		return conn;
 	}
 
 private:
