@@ -14,6 +14,11 @@ public:
 	{
 	}
 
+	SockAddr(IP ip, int port)
+	: address_family(ip.family()), local_address(ip), local_port(port)
+	{
+	}
+
 	SockAddr(struct sockaddr_storage& addr)
 	{
 		SockAddr(reinterpret_cast<struct sockaddr&>(addr));

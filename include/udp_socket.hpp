@@ -15,8 +15,7 @@ class UDP_Socket : public Socket
 public:
 	inline void bind(std::string address, int port)
 	{
-		local_address = IP(address);
-		local_port = port;
+		local_address = SockAddr(IP(address), port);
 
 		fd = socket(local_address.family(), SOCK_DGRAM, 0);
 		if (fd < 0) {
@@ -24,20 +23,23 @@ public:
 		}
 
 		struct sockaddr_storage addr;
+		socklen_t size;
 
 		if (local_address.family() == AF_INET) {
 			auto addr_in = reinterpret_cast<struct sockaddr_in*>(&addr);
 			addr_in->sin_family = local_address.family();
-			addr_in->sin_addr = local_address.addr.v4_addr;
+			addr_in->sin_addr = local_address.address().addr.v4_addr;
 			addr_in->sin_port = htons(port);
+			size = sizeof(sockaddr_in);
 		} else {
 			auto addr_in6 = reinterpret_cast<struct sockaddr_in6*>(&addr);
 			addr_in6->sin6_family = local_address.family();
-			addr_in6->sin6_addr = local_address.addr.v6_addr;
+			addr_in6->sin6_addr = local_address.address().addr.v6_addr;
 			addr_in6->sin6_port = htons(port);
+			size = sizeof(sockaddr_in6);
 		}
 
-		if (::bind(fd, reinterpret_cast<struct sockaddr*>(&addr), sizeof addr) < 0) {
+		if (::bind(fd, reinterpret_cast<struct sockaddr*>(&addr), size) < 0) {
 			throw std::runtime_error("failed to bind socket");
 		}
 	}

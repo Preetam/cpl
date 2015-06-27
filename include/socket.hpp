@@ -6,6 +6,7 @@
 #include <string> // std::string
 
 #include "ip.hpp"
+#include "sockaddr.hpp"
 
 namespace cpl
 {
@@ -15,13 +16,15 @@ namespace net
 class Socket
 {
 public:
+	Socket()
+	{
+	}
+
 	virtual void bind(std::string address, int port) = 0;
 
 protected:
 	int fd;
-	IP local_address;
-	int local_port;
-
+	SockAddr local_address;
 }; // Socket
 
 } // net
