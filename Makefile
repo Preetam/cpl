@@ -10,7 +10,7 @@ clean:
 	rm ./test/test
 
 test_build:
-	$(CXX) $(FLAGS) $(TEST_SOURCES) -I$(LIBRARY_INCLUDE) $(TEST_HEADERS) -o $(TEST_BINARY)
+	$(CXX) $(FLAGS) $(TEST_SOURCES) -I$(LIBRARY_INCLUDE) -o $(TEST_BINARY)
 
 test_run:
 	$(TEST_BINARY)
