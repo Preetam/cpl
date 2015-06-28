@@ -20,6 +20,11 @@ public:
 	{
 	}
 
+	~Socket()
+	{
+		close(fd);
+	}
+
 	virtual void bind(std::string address, int port) = 0;
 
 protected:

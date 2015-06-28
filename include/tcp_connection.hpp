@@ -21,6 +21,7 @@ public:
 
 	~TCP_Connection()
 	{
+		close(fd);
 	}
 
 	inline int recv(const void* buf, size_t len, int flags)

@@ -21,7 +21,7 @@ public:
 
 	SockAddr(struct sockaddr_storage& addr)
 	{
-		SockAddr(reinterpret_cast<struct sockaddr&>(addr));
+		set(reinterpret_cast<struct sockaddr&>(addr));
 	}
 
 	SockAddr(struct sockaddr& addr)
