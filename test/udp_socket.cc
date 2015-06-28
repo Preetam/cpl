@@ -8,7 +8,7 @@
 int
 test_udp_socket() {
 	try {
-		auto udp_socket = cpl::net::UDP_Socket();
+		cpl::net::UDP_Socket udp_socket;
 
 		auto addr = std::string("127.0.0.1");
 		udp_socket.bind(addr, 8080);

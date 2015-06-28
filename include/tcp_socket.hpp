@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdexcept> // std::runtime_error
+#include <memory>
 
 #include "socket.hpp"
 #include "sockaddr.hpp"
@@ -57,7 +58,7 @@ public:
 		}
 	}
 
-	inline TCP_Connection accept()
+	inline void accept(TCP_Connection* conn)
 	{
 		struct sockaddr_storage remote;
 		socklen_t remote_addr_size = sizeof(remote);
@@ -67,8 +68,7 @@ public:
 		}
 
 		SockAddr remote_address(remote);
-		TCP_Connection conn(newfd, local_address, remote_address);
-		return conn;
+		*conn = std::move(TCP_Connection(newfd, local_address, remote_address));
 	}
 
 private:

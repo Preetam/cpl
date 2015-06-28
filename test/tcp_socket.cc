@@ -6,7 +6,7 @@
 int
 test_tcp_socket() {
 	try {
-		auto tcp_socket = cpl::net::TCP_Socket();
+		cpl::net::TCP_Socket tcp_socket;
 
 		auto addr = std::string("127.0.0.1");
 		tcp_socket.bind(addr, 8080);

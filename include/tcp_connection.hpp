@@ -19,6 +19,14 @@ public:
 	{
 	}
 
+	TCP_Connection& operator = (TCP_Connection&& rhs)
+	{
+		rhs.fd = -1;
+		local = rhs.local;
+		remote = rhs.remote;
+		return *this;
+	}
+
 	~TCP_Connection()
 	{
 		close(fd);
@@ -45,10 +53,14 @@ public:
 	{
 		return remote;
 	}
+
 private:
 	int fd;
 	SockAddr local;
 	SockAddr remote;
+
+	TCP_Connection(const TCP_Connection&);
+	TCP_Connection& operator = (const TCP_Connection&);
 };
 
 } // net

@@ -30,6 +30,10 @@ public:
 protected:
 	int fd;
 	SockAddr local_address;
+
+private:
+	Socket(const Socket&);
+	Socket& operator = (const Socket&);
 }; // Socket
 
 } // net
