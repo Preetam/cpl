@@ -35,6 +35,16 @@ public:
 		auto ret = (int)(::send(fd, const_cast<void*>(buf), len, flags));
 		return ret;
 	}
+
+	inline SockAddr local_address()
+	{
+		return local;
+	}
+
+	inline SockAddr remote_address()
+	{
+		return remote;
+	}
 private:
 	int fd;
 	SockAddr local;
