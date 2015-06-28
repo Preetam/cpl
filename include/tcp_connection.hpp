@@ -21,9 +21,10 @@ public:
 
 	TCP_Connection& operator = (TCP_Connection&& rhs)
 	{
-		rhs.fd = -1;
+		fd = rhs.fd;
 		local = rhs.local;
 		remote = rhs.remote;
+		rhs.fd = -1;
 		return *this;
 	}
 
