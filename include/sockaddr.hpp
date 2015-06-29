@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cstdlib> // atoi
+#include <stdexcept> // std::invalid_argument
+
 #include "ip.hpp"
 
 namespace cpl
@@ -27,6 +30,24 @@ public:
 	SockAddr(struct sockaddr& addr)
 	{
 		set(addr);
+	}
+
+	SockAddr(std::string str)
+	{
+		std::size_t pos = str.rfind(":");
+		if (pos == std::string::npos) {
+			throw std::invalid_argument("invalid address");
+		}
+
+		auto addr_str = str.substr(0, pos);
+		auto port_str = str.substr(pos+1);
+
+		if (addr_str[0] == '[' && addr_str[addr_str.size() - 1] == ']') {
+			addr_str = addr_str.substr(1, addr_str.size() - 2);
+		}
+
+		local_address = IP(addr_str);
+		local_port = atoi(port_str.c_str());
 	}
 
 	inline void set(struct sockaddr& addr)
