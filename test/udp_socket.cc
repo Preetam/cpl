@@ -7,21 +7,11 @@
 
 int
 test_udp_socket() {
-	try {
-		cpl::net::UDP_Socket udp_socket;
-
-		auto addr = std::string("127.0.0.1");
-		udp_socket.bind(addr, 8080);
-
-		// cpl::net::SockAddr saddr;
-		// char buf[1000];
-		// auto message = std::string("hello");
-		// udp_socket.recvfrom(buf, 1000, 0, &saddr);
-		// std::cout << saddr.address() << ":" << saddr.port() << std::endl;
-		// udp_socket.sendto(message.c_str(), message.length(), 0, addr, 8081);
-	} catch(...) {
-		return 1;
+	cpl::net::UDP_Socket udp_socket;
+	auto addr = std::string("127.0.0.1");
+	auto ret = udp_socket.bind(addr, 8080);
+	if (ret < 0) {
+		return ret;
 	}
-
 	return 0;
 }

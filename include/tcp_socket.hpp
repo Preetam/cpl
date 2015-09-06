@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdexcept> // std::runtime_error
 #include <memory>
 
 #include "socket.hpp"
@@ -15,18 +14,19 @@ namespace net
 class TCP_Socket : public Socket
 {
 public:
-	inline void
+	inline int
 	listen()
 	{
-		listen(128);
+		return listen(128);
 	}
 
-	inline void
+	inline int
 	listen(int backlog)
 	{
 		if (::listen(fd, backlog) < 0) {
-			throw std::runtime_error("failed to listen on socket");
+			return -1;
 		}
+		return 0;
 	}
 
 	inline int
@@ -58,14 +58,14 @@ public:
 		return 0;
 	}
 
-	inline void
-	accept(TCP_Connection* conn)
+	inline int
+	accept(TCP_Connection* conn) throw()
 	{
 		struct sockaddr_storage remote;
 		socklen_t remote_addr_size = sizeof(remote);
 		int newfd = ::accept(fd, reinterpret_cast<struct sockaddr*>(&remote), &remote_addr_size);
 		if (newfd < 0) {
-			throw std::runtime_error("failed to accept connection");
+			return -1;
 		}
 		SockAddr remote_address(remote);
 		*conn = std::move(TCP_Connection(newfd, local_address, remote_address));
