@@ -11,28 +11,29 @@ namespace cpl
 namespace net
 {
 
-class IP
+struct IP
 {
-	friend class Socket;
-	friend class UDP_Socket;
-	friend class TCP_Socket;
+	int family;
+	union {
+		in_addr v4;
+		in6_addr v6;
+	} addr;
 
-public:
 	IP()
-	: addr_family(0)
+	: family(0)
 	{
 	}
 
 	IP(const in_addr address)
-	: addr_family(AF_INET)
+	: family(AF_INET)
 	{
-		addr.v4_addr = address;
+		addr.v4 = address;
 	}
 
 	IP(const in6_addr address)
-	: addr_family(AF_INET6)
+	: family(AF_INET6)
 	{
-		addr.v6_addr = address;
+		addr.v6 = address;
 	}
 
 	IP(const std::string& address)
@@ -40,60 +41,47 @@ public:
 		set(address);
 	}
 
-	inline void set(const std::string& address)
+	inline int
+	set(const std::string& address)
 	{
-		auto s = inet_pton(AF_INET, address.c_str(), &addr.v4_addr);
+		auto s = inet_pton(AF_INET, address.c_str(), &addr.v4);
 		if (s == 1) {
 			// success
-			addr_family = AF_INET;
-			return;
+			family = AF_INET;
+			return 0;
 		}
-
-		s = inet_pton(AF_INET6, address.c_str(), &addr.v6_addr);
+		s = inet_pton(AF_INET6, address.c_str(), &addr.v6);
 		if (s == 1) {
 			// success
-			addr_family = AF_INET6;
-			return;
+			family = AF_INET6;
+			return 0;
 		}
-		
-		throw std::invalid_argument("invalid ip");
+		return -1;
 	}
 
-	inline std::string string() const
+	inline std::string
+	string() const
 	{
-		if (addr_family == AF_INET) {
+		if (family == AF_INET) {
 			// v4
 			char str[INET_ADDRSTRLEN];
 			inet_ntop(AF_INET, (void*)(&addr), str, INET_ADDRSTRLEN);
 			return std::string(str);
 		}
-
-		if (addr_family == AF_INET6) {
+		if (family == AF_INET6) {
 			// v6
 			char str[INET6_ADDRSTRLEN];
 			inet_ntop(AF_INET6, (void*)(&addr), str, INET6_ADDRSTRLEN);
 			return std::string(str);
 		}
-
 		return "";
 	}
-
-	inline int family() const
-	{
-		return addr_family;
-	}
-
-private:
-	int addr_family;
-	union {
-		in_addr v4_addr;
-		in6_addr v6_addr;
-	} addr;
 
 	friend std::ostream& operator << (std::ostream& os, const IP& ip);
 }; // IP
 
-inline std::ostream& operator << (std::ostream& os, const IP& ip) {
+inline
+std::ostream& operator << (std::ostream& os, const IP& ip) {
 	os << ip.string();
 	return os;
 }

@@ -25,7 +25,7 @@ public:
 		close(fd);
 	}
 
-	virtual void bind(std::string address, int port) = 0;
+	virtual int bind(std::string address, int port) throw() = 0;
 
 protected:
 	int fd;
