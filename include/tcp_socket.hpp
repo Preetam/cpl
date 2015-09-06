@@ -69,6 +69,7 @@ public:
 		}
 		SockAddr remote_address(remote);
 		*conn = std::move(TCP_Connection(newfd, local_address, remote_address));
+		return 0;
 	}
 }; // TCP_Socket
 
