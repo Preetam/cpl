@@ -30,32 +30,38 @@ public:
 	}
 
 	inline int
-	bind(std::string ip, int port) throw()
+	bind(SockAddr& address)
 	{
-		local_address = SockAddr(IP(ip), port);
-		fd = socket(local_address.ip.family, SOCK_STREAM, 0);
+		fd = socket(address.ip.family, SOCK_STREAM, 0);
 		if (fd < 0) {
 			return -1;
 		}
 		struct sockaddr_storage addr;
 		socklen_t size;
-		if (local_address.ip.family == AF_INET) {
+		if (address.ip.family == AF_INET) {
 			auto addr_in = reinterpret_cast<struct sockaddr_in*>(&addr);
-			addr_in->sin_family = local_address.ip.family;
-			addr_in->sin_addr = local_address.ip.addr.v4;
-			addr_in->sin_port = htons(port);
+			addr_in->sin_family = address.ip.family;
+			addr_in->sin_addr = address.ip.addr.v4;
+			addr_in->sin_port = htons(address.port);
 			size = sizeof(sockaddr_in);
 		} else {
 			auto addr_in6 = reinterpret_cast<struct sockaddr_in6*>(&addr);
-			addr_in6->sin6_family = local_address.ip.family;
-			addr_in6->sin6_addr = local_address.ip.addr.v6;
-			addr_in6->sin6_port = htons(port);
+			addr_in6->sin6_family = address.ip.family;
+			addr_in6->sin6_addr = address.ip.addr.v6;
+			addr_in6->sin6_port = htons(address.port);
 			size = sizeof(sockaddr_in6);
 		}
 		if (::bind(fd, reinterpret_cast<struct sockaddr*>(&addr), size) < 0) {
 			return -2;
 		}
 		return 0;
+	}
+
+	inline int
+	bind(std::string ip, int port) throw()
+	{
+		local_address = SockAddr(IP(ip), port);
+		return bind(local_address);
 	}
 
 	inline int
