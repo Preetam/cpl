@@ -2,6 +2,7 @@
 
 #include "sys/socket.h"
 #include "sys/time.h"
+#include "unistd.h"
 
 #include "sockaddr.hpp"
 
@@ -22,6 +23,13 @@ public:
 	{
 	}
 
+	TCP_Connection(TCP_Connection&& rhs) {
+		_fd = rhs._fd;
+		_local = rhs._local;
+		_remote = rhs._remote;
+		rhs._fd = -1;
+	}
+
 	TCP_Connection& operator = (TCP_Connection&& rhs)
 	{
 		_fd = rhs._fd;
@@ -31,9 +39,13 @@ public:
 		return *this;
 	}
 
+	TCP_Connection(TCP_Connection& rhs) = delete; // no copying
+
 	~TCP_Connection()
 	{
-		close(_fd);
+		if (_fd > 0) {
+			close(_fd);
+		}
 	}
 
 	inline void
@@ -47,38 +59,37 @@ public:
 	}
 
 	inline int
-	recv(const void* buf, size_t len, int flags)
+	recv(const void* buf, size_t len, int flags) const
 	{
 		auto ret = (int)(::recv(_fd, const_cast<void*>(buf), len, flags));
 		return ret;
 	}
 
 	inline int
-	send(const void* buf, size_t len, int flags)
+	send(const void* buf, size_t len, int flags) const
 	{
 		auto ret = (int)(::send(_fd, const_cast<void*>(buf), len, flags));
 		return ret;
 	}
 
 	inline SockAddr
-	local_address()
+	local_address() const
 	{
 		return _local;
 	}
 
 	inline SockAddr
-	remote_address()
+	remote_address() const
 	{
 		return _remote;
 	}
+
+	TCP_Connection(const TCP_Connection&);
 
 private:
 	int _fd;
 	SockAddr _local;
 	SockAddr _remote;
-
-	TCP_Connection(const TCP_Connection&);
-	TCP_Connection& operator = (const TCP_Connection&);
 };
 
 } // net
