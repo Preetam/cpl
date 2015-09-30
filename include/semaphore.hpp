@@ -14,7 +14,7 @@ public:
     void acquire()
     {
         std::unique_lock<std::mutex> _(_m);
-        _cv.wait(_, []() {return _n > 0});
+        _cv.wait(_, [this]() {return _n > 0;});
         _n--;
     }
 
