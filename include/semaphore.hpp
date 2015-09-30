@@ -1,5 +1,5 @@
-#include <condition_variable>
 #include <mutex>
+#include <condition_variable>
 
 namespace cpl
 {
@@ -14,7 +14,7 @@ public:
     void acquire()
     {
         std::unique_lock<std::mutex> _(_m);
-        _cv.wait(_, [this]() {return _n > 0;});
+        _cv.wait(_, [this]() { return _n > 0; });
         _n--;
     }
 
@@ -28,11 +28,11 @@ public:
 
     // Disable copying.
     Semaphore(const Semaphore&) = delete;
-    Semaphore& operator=(const Semaphore&) = delete;
+    Semaphore& operator =(const Semaphore&) = delete;
 
 private:
     int _n;
-    std::mutex  _m;
+    std::mutex _m;
     std::condition_variable _cv;
 
 }; // Semaphore
