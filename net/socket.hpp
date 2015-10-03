@@ -20,9 +20,11 @@ public:
 	{
 	}
 
-	~Socket()
+	~Socket() throw()
 	{
-		close(fd);
+		if (fd >= 0) {
+			close(fd);
+		}
 	}
 
 	virtual int bind(std::string address, int port) throw() = 0;

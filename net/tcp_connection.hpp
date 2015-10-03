@@ -30,7 +30,7 @@ public:
 		rhs._fd = -1;
 	}
 
-	TCP_Connection& operator = (TCP_Connection&& rhs)
+	TCP_Connection& operator =(TCP_Connection&& rhs)
 	{
 		_fd = rhs._fd;
 		_local = rhs._local;
@@ -39,9 +39,11 @@ public:
 		return *this;
 	}
 
-	TCP_Connection(TCP_Connection& rhs) = delete; // no copying
+	// Disable copying.
+	TCP_Connection(const TCP_Connection&) = delete;
+	TCP_Connection& operator =(const TCP_Connection&) = delete;
 
-	~TCP_Connection()
+	~TCP_Connection() throw()
 	{
 		if (_fd > 0) {
 			close(_fd);
@@ -83,14 +85,11 @@ public:
 	{
 		return _remote;
 	}
-
-	TCP_Connection(const TCP_Connection&);
-
 private:
 	int _fd;
 	SockAddr _local;
 	SockAddr _remote;
-};
+}; // TCP_Connection
 
 } // net
 } // cpl

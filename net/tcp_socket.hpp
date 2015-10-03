@@ -14,6 +14,11 @@ namespace net
 class TCP_Socket : public Socket
 {
 public:
+	TCP_Socket()
+	: Socket()
+	{
+	}
+
 	inline int
 	listen()
 	{
@@ -81,6 +86,10 @@ public:
 		*conn = std::move(TCP_Connection(newfd, local_address, remote_address));
 		return 0;
 	}
+
+	// Disable copying.
+	TCP_Socket(const TCP_Socket&) = delete;
+	TCP_Socket& operator =(const TCP_Socket&) = delete;
 }; // TCP_Socket
 
 } // net

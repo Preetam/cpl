@@ -1,7 +1,8 @@
-cpplibs
+cpl
 ===
 
-I'm writing POSIX wrappers in C++ to help me learn C++.
+CPL is a collection of wrappers and headers that I
+find to be useful for my C++ projects.
 
 License
 ---
