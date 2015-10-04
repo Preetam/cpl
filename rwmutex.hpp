@@ -18,7 +18,7 @@ class RWMutex
 {
 public:
 	RWMutex()
-	: _r_sem(0), _w_sem(0), r_count(0), r_wait(0)
+	: r_sem(0), w_sem(0), r_count(0), r_wait(0)
 	{
 	}
 
@@ -29,7 +29,7 @@ public:
 		// there is an active writer.
 		if ((++r_count) < 0) {
 			// There is an active writer, so wait for it.
-			_r_sem.acquire();
+			r_sem.acquire();
 		}
 	}
 
@@ -46,7 +46,7 @@ public:
 			if ((--r_wait) == 0) {
 				// There is a waiting writer and this is the last
 				// reader, so we can signal the writer to continue.
-				_w_sem.release();
+				w_sem.release();
 			}
 		}
 	}
@@ -55,12 +55,12 @@ public:
 	lock()
 	{
 		// Lock for writing.
-		_mu.lock();
+		mu.lock();
 		// Announce to readers that there is a pending writer.
 		int32_t r = (r_count -= max_readers) + max_readers;
 		if (r != 0 && (r_wait += r) != 0) {
 			// Wait for the readers.
-			_w_sem.acquire();
+			w_sem.acquire();
 		}
 	}
 
@@ -74,16 +74,16 @@ public:
 		}
 		// Unblock blocked readers.
 		for (int i = 0; i < r; i++) {
-			_r_sem.release();
+			r_sem.release();
 		}
 		// Unlock for writing.
-		_mu.unlock();
+		mu.unlock();
 	}
 
 private:
-	Mutex _mu;
-	Semaphore _r_sem;
-	Semaphore _w_sem;
+	Mutex mu;
+	Semaphore r_sem;
+	Semaphore w_sem;
 	std::atomic<int32_t> r_count;
 	std::atomic<int32_t> r_wait;
 

@@ -11,17 +11,17 @@ public:
 	void
 	lock()
 	{
-		_m.lock();
+		m.lock();
 	}
 
 	void
 	unlock()
 	{
-		_m.unlock();
+		m.unlock();
 	}
 
 private:
-	std::mutex _m;
+	std::mutex m;
 }; // Mutex
 
 } // cpl

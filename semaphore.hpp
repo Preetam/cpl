@@ -8,24 +8,24 @@ namespace cpl
 class Semaphore {
 public:
 	Semaphore(int n)
-	: _n(n)
+	: n(n)
 	{
 	}
 
 	inline
 	void acquire()
 	{
-		std::unique_lock<std::mutex> _(_m);
-		_cv.wait(_, [this]() { return _n > 0; });
-		_n--;
+		std::unique_lock<std::mutex> lk(m);
+		cv.wait(lk, [this]() { return n > 0; });
+		n--;
 	}
 
 	inline
 	void release()
 	{
-		std::unique_lock<std::mutex> _(_m);
-		_n++;
-		_cv.notify_one();
+		std::unique_lock<std::mutex> lk(m);
+		n++;
+		cv.notify_one();
 	}
 
 	// Disable copying.
@@ -33,9 +33,9 @@ public:
 	Semaphore& operator =(const Semaphore&) = delete;
 
 private:
-	int _n;
-	std::mutex _m;
-	std::condition_variable _cv;
+	int n;
+	std::mutex m;
+	std::condition_variable cv;
 
 }; // Semaphore
 } // cpl
