@@ -16,41 +16,45 @@ const int32_t max_readers = 1 << 30;
 
 class RWMutex
 {
-
+public:
 	RWMutex()
 	: _r_sem(0), _w_sem(0), r_count(0), r_wait(0)
 	{
 	}
 
-	void
+	inline void
 	r_lock()
 	{
-		if (++r_count < 0) {
+		// Increment the reader count. If it's still negative,
+		// there is an active writer.
+		if ((++r_count) < 0) {
 			// There is an active writer, so wait for it.
 			_r_sem.acquire();
 		}
 	}
 
-	void
+	inline void
 	r_unlock()
 	{
+		// Decrement the reader count.
 		int32_t r = --r_count;
 		if (r < 0) {
 			if (r+1 == 0 || r+1 == -max_readers) {
 				throw std::runtime_error("r_unlock of unlocked RWMutex");
 			}
-
-			if (--r_wait == 0) {
-				// There is a waiting writer and this
-				// is the last reader.
+			// Decrement the number of readers a writer is waiting on.
+			if ((--r_wait) == 0) {
+				// There is a waiting writer and this is the last
+				// reader, so we can signal the writer to continue.
 				_w_sem.release();
 			}
 		}
 	}
 
-	void
+	inline void
 	lock()
 	{
+		// Lock for writing.
 		_mu.lock();
 		// Announce to readers that there is a pending writer.
 		int32_t r = (r_count -= max_readers) + max_readers;
@@ -60,7 +64,7 @@ class RWMutex
 		}
 	}
 
-	void
+	inline void
 	unlock()
 	{
 		// Announce to readers that there is no active writer.
@@ -72,6 +76,7 @@ class RWMutex
 		for (int i = 0; i < r; i++) {
 			_r_sem.release();
 		}
+		// Unlock for writing.
 		_mu.unlock();
 	}
 
