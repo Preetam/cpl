@@ -1,3 +1,6 @@
+// This is a reader/writer mutual exclusion lock implementation
+// based on Go's RWMutex, which is available at
+// https://golang.org/src/sync/rwmutex.go.
 #pragma once
 
 #include <atomic>
