@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream> // ostream
 #include <cstdlib> // atoi
 #include <stdexcept> // std::invalid_argument
 
@@ -74,6 +75,12 @@ struct SockAddr
 	set(struct sockaddr_storage& addr)
 	{
 		set(reinterpret_cast<struct sockaddr&>(addr));
+	}
+
+	friend std::ostream& operator << (std::ostream& os, const SockAddr& address)
+	{
+		os << address.ip << ":" << address.port;
+		return os;
 	}
 }; // SockAddr
 

@@ -18,14 +18,13 @@ public:
 	{
 	}
 
-	TCP_Connection(int fd, SockAddr local, SockAddr remote)
-	: fd(fd), local(local), remote(remote)
+	TCP_Connection(int fd, SockAddr remote)
+	: fd(fd), remote(remote)
 	{
 	}
 
 	TCP_Connection(TCP_Connection&& rhs) {
 		fd = rhs.fd;
-		local = rhs.local;
 		remote = rhs.remote;
 		rhs.fd = -1;
 	}
@@ -33,7 +32,6 @@ public:
 	TCP_Connection& operator =(TCP_Connection&& rhs)
 	{
 		fd = rhs.fd;
-		local = rhs.local;
 		remote = rhs.remote;
 		rhs.fd = -1;
 		return *this;
@@ -48,6 +46,34 @@ public:
 		if (fd > 0) {
 			close(fd);
 		}
+	}
+
+	inline int
+	connect(SockAddr& address)
+	{
+		fd = socket(address.ip.family, SOCK_STREAM, 0);
+		if (fd < 0) {
+			return -1;
+		}
+		struct sockaddr_storage addr;
+		socklen_t size;
+		if (address.ip.family == AF_INET) {
+			auto addr_in = reinterpret_cast<struct sockaddr_in*>(&addr);
+			addr_in->sin_family = address.ip.family;
+			addr_in->sin_addr = address.ip.addr.v4;
+			addr_in->sin_port = htons(address.port);
+			size = sizeof(sockaddr_in);
+		} else {
+			auto addr_in6 = reinterpret_cast<struct sockaddr_in6*>(&addr);
+			addr_in6->sin6_family = address.ip.family;
+			addr_in6->sin6_addr = address.ip.addr.v6;
+			addr_in6->sin6_port = htons(address.port);
+			size = sizeof(sockaddr_in6);
+		}
+		if (::connect(fd, reinterpret_cast<struct sockaddr*>(&addr), size) < 0) {
+			return -2;
+		}
+		return 0;
 	}
 
 	inline void
@@ -75,19 +101,12 @@ public:
 	}
 
 	inline SockAddr
-	local_address() const
-	{
-		return local;
-	}
-
-	inline SockAddr
 	remote_address() const
 	{
 		return remote;
 	}
 private:
 	int fd;
-	SockAddr local;
 	SockAddr remote;
 }; // TCP_Connection
 

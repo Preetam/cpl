@@ -83,7 +83,7 @@ public:
 			return -1;
 		}
 		SockAddr remote_address(remote);
-		*conn = std::move(TCP_Connection(newfd, local_address, remote_address));
+		*conn = std::move(TCP_Connection(newfd, remote_address));
 		return 0;
 	}
 
