@@ -2,6 +2,7 @@
 
 #include <unistd.h>     // close
 #include <sys/socket.h> // socket
+#include <fcntl.h> // fnctl
 
 #include <string> // std::string
 
@@ -28,6 +29,12 @@ public:
 	}
 
 	virtual int bind(std::string address, int port) throw() = 0;
+
+	inline void
+	set_nonblocking()
+	{
+		fcntl(fd, F_SETFL, SO_SNDTIMEO);
+	}
 
 protected:
 	int fd;
