@@ -7,6 +7,11 @@ namespace cpl
 {
 class Semaphore {
 public:
+	Semaphore()
+	: n(0)
+	{
+	}
+
 	Semaphore(int n)
 	: n(n)
 	{
