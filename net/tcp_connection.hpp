@@ -15,15 +15,19 @@ class TCP_Connection
 {
 public:
 	TCP_Connection()
+	: fd(-1)
 	{
 	}
 
-	TCP_Connection(int fd, SockAddr remote)
+	TCP_Connection(int fd, SockAddr& remote)
 	: fd(fd), remote(remote)
 	{
 	}
 
 	TCP_Connection(TCP_Connection&& rhs) {
+		if (fd >= 0) {
+			close(fd);
+		}
 		fd = rhs.fd;
 		remote = rhs.remote;
 		rhs.fd = -1;
@@ -31,6 +35,9 @@ public:
 
 	TCP_Connection& operator =(TCP_Connection&& rhs)
 	{
+		if (fd >= 0) {
+			close(fd);
+		}
 		fd = rhs.fd;
 		remote = rhs.remote;
 		rhs.fd = -1;
@@ -43,7 +50,7 @@ public:
 
 	~TCP_Connection() throw()
 	{
-		if (fd > 0) {
+		if (fd >= 0) {
 			close(fd);
 		}
 	}
@@ -100,7 +107,7 @@ public:
 		return ret;
 	}
 
-	inline SockAddr
+	inline SockAddr&
 	remote_address() const
 	{
 		return remote;

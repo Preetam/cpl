@@ -18,6 +18,7 @@ class Socket
 {
 public:
 	Socket()
+	: fd(-1)
 	{
 	}
 
@@ -36,13 +37,13 @@ public:
 		fcntl(fd, F_SETFL, SO_SNDTIMEO);
 	}
 
+	// Disable copying.
+	Socket(const Socket&) = delete;
+	Socket& operator =(const Socket&) = delete;
+
 protected:
 	int fd;
 	SockAddr local_address;
-
-private:
-	Socket(const Socket&);
-	Socket& operator = (const Socket&);
 }; // Socket
 
 } // net
