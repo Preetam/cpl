@@ -107,7 +107,7 @@ public:
 		return ret;
 	}
 
-	inline SockAddr&
+	inline SockAddr
 	remote_address() const
 	{
 		return remote;
