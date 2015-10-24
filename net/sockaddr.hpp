@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sstream> // osstringstream
 #include <iostream> // ostream
 #include <cstdlib> // atoi
 #include <stdexcept> // std::invalid_argument
@@ -81,6 +82,16 @@ struct SockAddr
 	{
 		os << address.ip << ":" << address.port;
 		return os;
+	}
+
+	std::string
+	str()
+	{
+		std::string s;
+		std::ostringstream os;
+		os << ip << ":" << port;
+		s = os.str();
+		return s;
 	}
 }; // SockAddr
 
