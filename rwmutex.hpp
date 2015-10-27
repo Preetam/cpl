@@ -89,4 +89,30 @@ private:
 
 }; // RWMutex
 
+class RWLock
+{
+public:
+	RWLock(RWMutex& mu, bool reader)
+	: mu(mu), reader(reader)
+	{
+		if (reader) {
+			mu.r_lock();
+		} else {
+			mu.lock();
+		}
+	}
+
+	~RWLock()
+	{
+		if (reader) {
+			mu.r_unlock();
+		} else {
+			mu.unlock();
+		}
+	}
+private:
+	bool reader;
+	RWMutex& mu;
+}; // RWLock
+
 } // cpl
