@@ -92,26 +92,35 @@ private:
 class RWLock
 {
 public:
-	RWLock(RWMutex& mu, bool reader)
-	: mu(mu), reader(reader)
+	enum LockType
 	{
-		if (reader) {
-			mu.r_lock();
-		} else {
+		Writer, Reader
+	};
+
+	RWLock(RWMutex& mu, LockType lock_type)
+	: mu(mu), lock_type(lock_type)
+	{
+		switch (lock_type) {
+		case Writer:
 			mu.lock();
+			break;
+		case Reader:
+			mu.r_lock();
 		}
 	}
 
 	~RWLock()
 	{
-		if (reader) {
-			mu.r_unlock();
-		} else {
+		switch (lock_type) {
+		case Writer:
 			mu.unlock();
+			break;
+		case Reader:
+			mu.r_unlock();
 		}
 	}
 private:
-	bool reader;
+	LockType lock_type;
 	RWMutex& mu;
 }; // RWLock
 
