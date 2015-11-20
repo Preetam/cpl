@@ -12,6 +12,8 @@ namespace cpl {
 
 class Flags
 {
+	using cb_func = std::function<void(std::string, std::string, void*)>;
+
 public:
 	Flags(std::string name, std::string version)
 	: name(name), version(version)
@@ -19,10 +21,10 @@ public:
 	}
 
 	void add_option(std::string, std::string, std::string,
-		std::function<void(std::string, std::string, void*)>);
+		cb_func);
 
 	void add_option(std::string, std::string, std::string,
-		std::function<void(std::string, std::string, void*)>, void*);
+		cb_func, void*);
 
 	// parses arguments
 	void parse(int argc, char* argv[]) throw();
@@ -38,7 +40,7 @@ private:
 	std::string version;
 
 	// map from flag to callback
-	std::map<std::string, std::function<void(std::string, std::string, void*)>> funcs;
+	std::map<std::string, cb_func> funcs;
 
 	// map from flag to data pointer
 	std::map<std::string, void*> ptrs;
@@ -49,7 +51,7 @@ private:
 
 inline void Flags :: add_option(std::string long_opt,
 	std::string opt, std::string desc,
-	std::function<void(std::string, std::string, void*)> cb) {
+	cb_func cb) {
 
 	// no data pointer
 	add_option(long_opt, opt, desc, cb, nullptr);
@@ -57,7 +59,7 @@ inline void Flags :: add_option(std::string long_opt,
 
 inline void Flags :: add_option(std::string long_opt,
 	std::string opt, std::string desc,
-	std::function<void(std::string, std::string, void*)> cb,
+	cb_func cb,
 	void* p) {
 
 	if (opt.length() > 2) {
@@ -158,6 +160,6 @@ inline void Flags :: parse(int argc, char* argv[]) throw() {
 			cb->second(arg, "", ptrs.find(arg)->second);
 		}
 	}
-}
+} // Flags
 
 } // cpl
