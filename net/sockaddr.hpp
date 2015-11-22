@@ -85,7 +85,7 @@ struct SockAddr
 	}
 
 	std::string
-	str()
+	str() const
 	{
 		std::string s;
 		std::ostringstream os;

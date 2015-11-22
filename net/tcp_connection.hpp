@@ -56,7 +56,7 @@ public:
 	}
 
 	inline int
-	connect(SockAddr& address)
+	connect(const SockAddr& address)
 	{
 		fd = socket(address.ip.family, SOCK_STREAM, 0);
 		if (fd < 0) {
