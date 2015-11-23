@@ -41,6 +41,8 @@ public:
 		if (fd < 0) {
 			return -1;
 		}
+		int one = 1;
+		setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &one, sizeof(one));
 		struct sockaddr_storage addr;
 		socklen_t size;
 		if (address.ip.family == AF_INET) {
