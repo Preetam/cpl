@@ -81,6 +81,7 @@ struct SockAddr
 	inline void
 	get_sockaddr(struct sockaddr* sockaddr)
 	{
+		sockaddr->sa_family = ip.family;
 		if (ip.family == AF_INET) {
 			auto addr_in = reinterpret_cast<struct sockaddr_in*>(sockaddr);
 			addr_in->sin_port = htons(port);
