@@ -78,6 +78,20 @@ struct SockAddr
 		set(reinterpret_cast<struct sockaddr&>(addr));
 	}
 
+	inline void
+	get_sockaddr(struct sockaddr* sockaddr)
+	{
+		if (ip.family == AF_INET) {
+			auto addr_in = reinterpret_cast<struct sockaddr_in*>(sockaddr);
+			addr_in->sin_port = htons(port);
+			addr_in->sin_addr = ip.addr.v4;
+		} else {
+			auto addr_in6 = reinterpret_cast<struct sockaddr_in6*>(sockaddr);
+			addr_in6->sin6_port = htons(port);
+			addr_in6->sin6_addr = ip.addr.v6;
+		}
+	}
+
 	friend std::ostream& operator << (std::ostream& os, const SockAddr& address)
 	{
 		os << address.ip << ":" << address.port;
