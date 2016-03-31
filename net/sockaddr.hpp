@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __FreeBSD__
+#include <sys/socket.h>
+#endif
+
 #include <sstream> // osstringstream
 #include <iostream> // ostream
 #include <cstdlib> // atoi

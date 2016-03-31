@@ -2,6 +2,11 @@
 
 #include <arpa/inet.h>
 
+#ifdef __FreeBSD__
+#include <netinet/in.h>
+#include <sys/socket.h>
+#endif
+
 #include <string> // std::string
 #include <iostream> // std::cout
 #include <stdexcept> // std::invalid_argument

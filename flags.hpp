@@ -4,6 +4,7 @@
 
 #include <map>        // std::map
 #include <string>     // std::string
+#include <cstdio>     // printf
 #include <iostream>   // std::cout
 #include <stdexcept>  // exceptions
 #include <functional> // std::function
